@@ -23,6 +23,10 @@
 		</div>
 
 		<div class="flex flex-col space-y-[16px] w-full">
+			<button class="self-end p-[10px_16px] text-[#B4B4B4] rounded-md shadow-md">
+				По умолчанию
+			</button>
+
 			<TransitionGroup v-if="!lg" name="add-form-button">
 				<PlusIcon
 					v-if="!lg && !isProductAddFormOpened"
@@ -35,10 +39,6 @@
 					class="fixed bottom-10 right-7 h-16 stroke-1 bg-[#a1a1a1]/70 text-red-400 rounded-full p-3 hover:bg-[#a1a1a1] active:scale-75 z-10 transition-all"
 				/>
 			</TransitionGroup>
-
-			<button class="self-end p-[10px_16px] text-[#B4B4B4] rounded-md shadow-md">
-				По умолчанию
-			</button>
 
 			<TransitionGroup
 				name="product-list"
