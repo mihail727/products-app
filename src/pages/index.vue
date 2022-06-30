@@ -23,7 +23,7 @@
 		</div>
 
 		<div class="flex flex-col space-y-[16px] w-full">
-			<TransitionGroup name="add-form-button">
+			<TransitionGroup v-if="!lg" name="add-form-button">
 				<PlusIcon
 					v-if="!lg && !isProductAddFormOpened"
 					@click="isProductAddFormOpened = true"
