@@ -17,9 +17,9 @@
 	<div
 		@mouseenter="isCardHovered = true"
 		@mouseleave="isCardHovered = false"
-		class="relative flex flex-col shadow-md hover:shadow-xl rounded w-[430px] active:scale-95 transition-all"
+		class="relative flex-shrink flex flex-col max-w-[485px] shadow-md hover:shadow-xl rounded active:scale-95 transition-all"
 	>
-		<img :src="product.imageLink" alt="product-image" width="430" />
+		<img :src="product.imageLink" alt="product-image" />
 
 		<div class="flex-grow flex flex-col p-[16px]">
 			<p class="font-[600] text-[20px] mb-[16px]">{{ product.name }}</p>
