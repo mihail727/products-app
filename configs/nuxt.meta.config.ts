@@ -1,7 +1,6 @@
 import type { NuxtConfig } from 'nuxt';
 
 export default {
-	css: ['~/assets/css/font.css'],
 	app: {
 		head: {
 			charset: 'utf-8',

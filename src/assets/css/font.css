@@ -1,8 +1,0 @@
-@font-face {
-	font-family: 'SourceSansPro';
-	src: local('SourceSansPro'), url(/fonts/SourceSansPro-Regular.ttf) format('truetype');
-}
-
-html {
-	font-family: 'SourceSansPro';
-}
