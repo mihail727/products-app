@@ -1,4 +1,15 @@
 <script setup lang="ts">
+	useHead({
+		link: [
+			{ rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+			{ rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true },
+			{
+				rel: 'stylesheet',
+				href: 'https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap',
+			},
+		],
+	});
+
 	const productName = ref('');
 	const productDesc = ref('');
 	const imageLink = ref('');
@@ -12,17 +23,8 @@
 </script>
 
 <template>
-	<Head>
-		<Link rel="preconnect" href="https://fonts.googleapis.com" />
-		<Link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true" />
-		<Link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap"
-			rel="stylesheet"
-		/>
-	</Head>
-
 	<div
-		class="flex flex-col space-y-[16px] w-[432px] p-[24px] bg-[#FFFEFB] rounded shadow-2xl text-[#49485E]"
+		class="flex flex-col space-y-[16px] w-full h-full p-[24px] bg-[#FFFEFB] rounded shadow-2xl text-[#49485E]"
 	>
 		<div class="flex flex-col space-y-1">
 			<h3 class="text-sm after:content-['*'] after:text-[#FF8484]">Наименование товара</h3>
