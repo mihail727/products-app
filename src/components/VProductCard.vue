@@ -2,9 +2,6 @@
 	import { TrashIcon } from '@heroicons/vue/outline/index.js';
 	import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
 
-	const breakpoints = useBreakpoints(breakpointsTailwind);
-	const md = breakpoints.greater('md');
-
 	defineProps<{
 		id: number;
 		product: IProduct;
@@ -14,6 +11,11 @@
 		(e: 'delete', id: number): void;
 	}>();
 
+	const breakpoints = useBreakpoints(breakpointsTailwind);
+	const md = breakpoints.greater('md');
+
+	const { formatForView } = usePriceFormat();
+
 	const isCardHovered = ref(false);
 </script>
 
@@ -21,16 +23,20 @@
 	<div
 		@mouseenter="isCardHovered = true"
 		@mouseleave="isCardHovered = false"
-		class="relative flex-shrink flex flex-col justify-between max-w-full md:max-w-[485px] shadow-md hover:shadow-xl rounded active:scale-95 transition-all"
+		class="relative flex flex-col justify-between max-w-full md:max-w-[485px] shadow-md hover:shadow-xl rounded active:scale-95 transition-all"
 	>
-		<img :src="product.imageLink" alt="product-image" />
+		<img
+			:src="product.imageLink"
+			alt="product-image"
+			class="max-h-[411px] md:max-h-[292px] w-full md:w-[485px]"
+		/>
 
 		<div class="flex-grow flex flex-col justify-between p-[16px]">
 			<p class="font-[600] text-[18px] xs:text-[20px] mb-[16px]">{{ product.name }}</p>
 			<p class="flex-grow text-[14px] xs:text-[16px] max-h-[43%] mb-[32px] overflow-y-scroll">
 				{{ product.desc }}
 			</p>
-			<p class="text-[20px] xs:text-[24px]">{{ product.price }} руб.</p>
+			<p class="text-[20px] xs:text-[24px]">{{ formatForView(product.price) }} руб.</p>
 		</div>
 
 		<Transition name="trash">
