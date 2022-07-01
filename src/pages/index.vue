@@ -4,6 +4,7 @@
 
 	const breakpoints = useBreakpoints(breakpointsTailwind);
 	const lg = breakpoints.greater('lg');
+	const md = breakpoints.greater('md');
 
 	const isProductAddFormOpened = ref(false);
 
@@ -13,7 +14,7 @@
 <template>
 	<div class="relative flex min-h-screen w-screen p-[20px] lg:p-[32px] lg:space-x-6">
 		<div
-			class="fixed bottom-[90px] right-[90px] lg:sticky lg:top-[32px] h-fit lg:h-full flex flex-grow-0 flex-col space-y-[16px] z-10"
+			class="fixed right-0 left-0 sm:left-auto sm:top-auto sm:bottom-[90px] sm:right-[90px] lg:sticky lg:top-[32px] h-screen sm:h-fit lg:h-full flex flex-grow-0 flex-col space-y-[16px] z-10"
 		>
 			<h2 v-if="lg" class="text-[28px] text-[#3F3F3F] font-[600]">Добавление товара</h2>
 
@@ -31,19 +32,19 @@
 				<PlusIcon
 					v-if="!lg && !isProductAddFormOpened"
 					@click="isProductAddFormOpened = true"
-					class="fixed bottom-10 right-7 h-16 stroke-1 bg-[#a1a1a1]/70 text-green-400 rounded-full p-3 hover:bg-[#a1a1a1] active:scale-75 z-10 transition-all"
+					class="fixed bottom-5 xxs:bottom-10 right-3 xxs:right-7 h-14 xxs:h-16 stroke-1 bg-[#a1a1a1]/70 text-green-400 rounded-full p-3 hover:bg-[#a1a1a1] active:scale-75 z-10 transition-all"
 				/>
 				<XIcon
 					v-if="!lg && isProductAddFormOpened"
 					@click="isProductAddFormOpened = false"
-					class="fixed bottom-10 right-7 h-16 stroke-1 bg-[#a1a1a1]/70 text-red-400 rounded-full p-3 hover:bg-[#a1a1a1] active:scale-75 z-10 transition-all"
+					class="fixed bottom-5 xxs:bottom-10 right-3 xxs:right-7 h-14 xxs:h-16 stroke-1 bg-[#a1a1a1]/70 text-red-400 rounded-full p-3 hover:bg-[#a1a1a1] active:scale-75 z-10 transition-all"
 				/>
 			</TransitionGroup>
 
 			<TransitionGroup
 				name="product-list"
 				tag="div"
-				class="relative grid grid-cols-2 2xl:grid-cols-3 gap-x-4 gap-y-4 place-items-center items-stretch"
+				class="relative grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-x-4 gap-y-4 place-items-center items-stretch"
 			>
 				<VProductCard
 					v-for="(product, id) in productList"
