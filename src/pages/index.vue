@@ -45,8 +45,9 @@
 				/>
 			</TransitionGroup>
 
+			<!-- TODO: не может прочитать length -->
 			<TransitionGroup
-				v-if="productList.length > 0"
+				v-if="productList?.length > 0"
 				name="product-list"
 				tag="div"
 				class="relative grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-x-4 gap-y-4 place-items-center items-stretch"
