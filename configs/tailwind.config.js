@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
 	content: [
 		'~~/src/components/**/*.{vue,js,ts}',
@@ -8,6 +10,11 @@ module.exports = {
 	],
 	theme: {
 		extend: {},
+		screens: {
+			xs: '425px',
+			xxs: '350px',
+			...defaultTheme.screens,
+		},
 	},
 	plugins: [require('@tailwindcss/forms')],
 };
