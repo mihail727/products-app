@@ -21,7 +21,7 @@ export default () => {
 
 	const load = async () => {
 		pending.value = true;
-		await promiseTimeout(800);
+		await promiseTimeout(3000);
 		pending.value = false;
 		return productList.value.map((v) => v);
 	};
