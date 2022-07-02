@@ -15,7 +15,7 @@
 	</Head>
 
 	<div
-		class="min-h-screen min-w-screen bg-[rgba(255,254,251,0.8)] font-['Source_Sans_Pro',_sans-serif]"
+		class="min-h-screen min-w-screen bg-[rgba(255,254,251,0.8)] font-['Source_Sans_Pro',_sans-serif] overflow-x-hidden"
 	>
 		<NuxtPage />
 	</div>
