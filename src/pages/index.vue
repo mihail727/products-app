@@ -1,36 +1,49 @@
 <script setup lang="ts">
-	import { PlusIcon, XIcon, CodeIcon } from '@heroicons/vue/outline/index.js';
+	import { PlusIcon, XIcon, CodeIcon, PhotographIcon } from '@heroicons/vue/outline/index.js';
 	import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
+	import { SortTypes } from '../types';
 
 	const breakpoints = useBreakpoints(breakpointsTailwind);
 	const lg = breakpoints.greater('lg');
 
 	const isProductAddFormOpened = ref(false);
+	const productList = ref<IProduct[]>([]);
 
-	const { productList, removeById } = useProduct();
+	const { add, removeById, load, pending } = useProduct();
 
 	const onAddProduct = (newProduct: IProduct) => {
-		productList.value.splice(0, 0, newProduct);
+		productList.value = add(newProduct);
 		isProductAddFormOpened.value = false;
+	};
+
+	const onRemoveProduct = (id: number) => {
+		productList.value = removeById(id);
+	};
+
+	onMounted(async () => {
+		productList.value = await load();
+	});
+
+	const onSortSelected = (sortType: SortTypes) => {
+		productList.value = useArraySort().factory(sortType, productList.value);
 	};
 </script>
 
 <template>
 	<div class="relative flex min-h-screen w-screen p-[20px] lg:p-[32px] lg:space-x-6">
-		<div
-			class="fixed right-0 left-0 sm:left-auto sm:top-auto sm:bottom-[90px] sm:right-[90px] lg:sticky lg:top-[32px] h-screen sm:h-fit lg:h-full flex flex-grow-0 flex-col space-y-[16px] z-10"
-		>
-			<h2 v-if="lg" class="text-[28px] text-[#3F3F3F] font-[600]">Добавление товара</h2>
+		<TransitionGroup name="product-add-form">
+			<div
+				v-if="lg || isProductAddFormOpened"
+				class="fixed top-0 right-0 left-0 sm:left-auto sm:top-auto sm:bottom-[90px] sm:right-[90px] lg:sticky lg:top-[32px] h-screen sm:h-fit lg:h-full flex flex-grow-0 flex-col lg:space-y-[16px] z-10"
+			>
+				<h2 v-show="lg" class="text-[28px] text-[#3F3F3F] font-[600]">Добавление товара</h2>
 
-			<Transition name="product-add-form">
-				<VProductAddForm v-if="isProductAddFormOpened || lg" @add-product="onAddProduct" />
-			</Transition>
-		</div>
+				<VProductAddForm @add-product="onAddProduct" :is-disabled="pending" />
+			</div>
+		</TransitionGroup>
 
 		<div class="flex flex-col space-y-[16px] w-full">
-			<button class="self-end p-[10px_16px] text-[#B4B4B4] rounded-md shadow-md">
-				По умолчанию
-			</button>
+			<VSortButton @select="onSortSelected" :is-disabled="pending" />
 
 			<TransitionGroup v-if="!lg" name="add-form-button">
 				<PlusIcon
@@ -45,28 +58,50 @@
 				/>
 			</TransitionGroup>
 
-			<!-- TODO: не может прочитать length -->
-			<TransitionGroup
-				v-if="productList?.length > 0"
-				name="product-list"
-				tag="div"
-				class="relative grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-x-4 gap-y-4 place-items-center items-stretch"
-			>
-				<VProductCard
-					v-for="(product, id) in productList"
-					:key="product"
-					:product="product"
-					:id="id"
-					@delete="removeById(id)"
-				/>
-			</TransitionGroup>
+			<ClientOnly>
+				<TransitionGroup
+					v-show="productList.length > 0"
+					name="product-list"
+					tag="div"
+					class="relative grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-x-4 gap-y-4 place-items-center items-stretch"
+				>
+					<VProductCard
+						v-for="(product, id) in productList"
+						:key="product"
+						:product="product"
+						:id="id"
+						@delete="onRemoveProduct(id)"
+					/>
+				</TransitionGroup>
+
+				<div
+					v-show="productList.length == 0 && !pending"
+					class="flex flex-col justify-center items-center h-full shadow-md rounded text-[#a1a1a1]"
+				>
+					<CodeIcon class="w-16" />
+					<span class="text-2xl">Товары отсутствуют</span>
+				</div>
+			</ClientOnly>
 
 			<div
-				v-else
-				class="flex flex-col justify-center items-center h-full shadow-md rounded text-[#a1a1a1]"
+				v-show="pending"
+				class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-x-4 gap-y-4 place-items-center items-stretch"
 			>
-				<CodeIcon class="w-16" />
-				<span class="text-2xl">Товары отсутствуют</span>
+				<div
+					v-for="i in 3"
+					class="flex flex-col justify-between w-full min-h-[400px] max-h-[471px] max-w-[682px] md:max-w-[485px] bg-[#EEEEEE] shadow-md rounded animate-pulse"
+				>
+					<div
+						class="flex-shrink-0 flex justify-center items-center rounded-t bg-[#a1a1a1]/30 w-full h-[65%] aspect-[485/292]"
+					>
+						<PhotographIcon class="h-32 stroke-1 text-[#a7a6a6]" />
+					</div>
+					<div class="flex-grow flex flex-col justify-between p-[16px]">
+						<div class="bg-[#a1a1a1]/50 w-[70%] h-[17px] rounded mb-[16px]"></div>
+						<div class="bg-[#a1a1a1]/50 w-full h-[40px] rounded mb-[5%]"></div>
+						<div class="bg-[#a1a1a1]/50 w-[50%] h-[17px] rounded"></div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
