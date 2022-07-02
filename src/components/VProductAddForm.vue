@@ -10,6 +10,14 @@
 		],
 	});
 
+	definePageMeta({
+		keepalive: true,
+	});
+
+	defineProps<{
+		isDisabled: boolean;
+	}>();
+
 	const emit = defineEmits<{
 		(e: 'addProduct', product: IProduct): void;
 	}>();
@@ -84,11 +92,12 @@
 
 <template>
 	<div
-		class="flex flex-col space-y-[18px] w-full h-full p-[24px] bg-[#FFFEFB] rounded shadow-2xl text-[#49485E] overflow-y-auto transition-all"
+		class="flex flex-col space-y-[20px] w-full h-full p-[24px] bg-[#FFFEFB]/70 lg:bg-[#FFFEFB] rounded shadow-2xl text-[#49485E] overflow-y-auto backdrop-blur-lg lg:backdrop-blur-0 transition-all"
 	>
 		<div class="relative flex flex-col space-y-1">
 			<h3 class="text-sm after:content-['*'] after:text-[#FF8484]">Наименование товара</h3>
 			<input
+				:disabled="isDisabled"
 				v-model="productName"
 				type="text"
 				class="rounded shadow-md h-[36px] placeholder:text-[#B4B4B4] bg-[#FFFEFB] p-[10px_16px] focus:border-none"
@@ -98,7 +107,7 @@
 			<Transition name="error">
 				<span
 					v-show="inputNameError"
-					class="absolute bottom-[-21px] text-[12px] text-red-500"
+					class="absolute bottom-[-16px] text-[10px] text-red-500"
 				>
 					Поле является обязательным
 				</span>
@@ -108,6 +117,7 @@
 		<div class="flex flex-col space-y-1">
 			<h3 class="text-sm">Описание товара</h3>
 			<textarea
+				:disabled="isDisabled"
 				v-model="productDesc"
 				class="rounded shadow-md placeholder:text-[#B4B4B4] bg-[#FFFEFB] p-[10px_16px] resize-none"
 				placeholder="Введите описание товара"
@@ -121,6 +131,7 @@
 				Ссылка на изображение товара
 			</h3>
 			<input
+				:disabled="isDisabled"
 				v-model="imageLink"
 				type="text"
 				class="rounded shadow-md h-[36px] bg-[#FFFEFB] placeholder:text-[#B4B4B4] p-[10px_16px]"
@@ -130,7 +141,7 @@
 			<Transition name="error">
 				<span
 					v-show="inputImageLinkError"
-					class="absolute bottom-[-21px] text-[12px] text-red-500"
+					class="absolute bottom-[-16px] text-[10px] text-red-500"
 				>
 					Поле является обязательным
 				</span>
@@ -140,6 +151,7 @@
 		<div class="relative flex flex-col space-y-1">
 			<h3 class="text-sm after:content-['*'] after:text-[#FF8484]">Цена товара</h3>
 			<input
+				:disabled="isDisabled"
 				v-model="productPrice"
 				@keyup="onPriceInputKeyUp"
 				@keypress.prevent="onPriceInputKeyPress"
@@ -151,7 +163,7 @@
 			<Transition name="error">
 				<span
 					v-show="inputPriceError"
-					class="absolute bottom-[-21px] text-[12px] text-red-500"
+					class="absolute bottom-[-16px] text-[10px] text-red-500"
 				>
 					Поле является обязательным
 				</span>
@@ -161,7 +173,7 @@
 		<button
 			:disabled="isAddButtonDisabled"
 			@click="onClickAdd"
-			class="disabled:bg-[#EEEEEE] disabled:text-[#B4B4B4] rounded-lg p-[10px] font-['Inter',_sans-serif]"
+			class="bg-[#7BAE73] disabled:bg-[#EEEEEE] text-white disabled:text-[#B4B4B4] rounded-lg p-[10px] font-['Inter',_sans-serif]"
 		>
 			Добавить товар
 		</button>
